@@ -25,6 +25,10 @@ fluidPage(
                   min = 0, max = 100,
                   value = 20, step = 0.001),
 
+      numericInput("muC", "Mean of Control:",
+                   min = 0, max = 100,
+                   value = 5, step = 0.001),
+
       sliderInput("marginval", "Margin:",
                   min = 0, max = 2,
                   value = 1.1, step = 0.001),
