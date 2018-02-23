@@ -7,7 +7,7 @@ function(input, output) {
                  alpha = as.numeric(input$type1), beta = 1 - as.numeric(input$power))
     }
     else{
-      multi.margin(delta = input$marginval, muC = muC, varC = input$varC, varT = input$varT,
+      multi.margin(delta = input$marginval, muC = input$muC, varC = input$varC, varT = input$varT,
                  alpha = as.numeric(input$type1), beta = 1 - as.numeric(input$power))
     }
   })
