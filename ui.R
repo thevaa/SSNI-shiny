@@ -1,5 +1,6 @@
 library(shiny)
 library(SSNI)
+library(plotly)
 
 fluidPage(
 
@@ -44,8 +45,13 @@ fluidPage(
     mainPanel(
 
       # Output: Table summarizing the values entered ----
-      tableOutput("values")
-
+      h4("Sample Size and Eficiency"),
+      tableOutput("values"), 
+      
+      h4("Plot of Efficiency"),
+      plotlyOutput("plot")
     )
-  )
+    
+    
+)
 )
