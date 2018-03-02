@@ -40,7 +40,7 @@ function(input, output) {
   })
   
   output$plot <- renderPlotly({
-    plot_ly(eff, x = ~control, y = ~eff1, type = 'scatter', mode = 'lines')
+    plot_ly(eff(), x = ~control, y = ~eff1, type = 'scatter', mode = 'lines')
   })
   
 }
