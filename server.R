@@ -1,6 +1,6 @@
 library(SSNI)
 library(plotly)
-h  <- seq(0.05, 0.95, 0.01)
+h  <- seq(0.05, 0.95, 0.005)
 
 function(input, output) {
   sliderValues <- reactive({
