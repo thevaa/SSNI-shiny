@@ -13,9 +13,9 @@ fluidPage(
     # Sidebar to demonstrate various slider options ----
     sidebarPanel(
       p("Additve:"),
-      p(withMathJax("$$H_0 \\text{ : } \\mu_C \\text{  =  } \\mu_T  \\text{ + } \\Delta$$")),
+      p(withMathJax("$$H_0 \\text{ : } \\mu_C \\text{  =  } \\mu_T  \\text{ + } \\Delta \\text{,} \\quad \\Delta > 0$$")),
       p("Multiplicative:"),
-      p(withMathJax("$$H_0 \\text{ : } \\mu_C \\text{  =  } \\Delta\\mu_T$$")),
+      p(withMathJax("$$H_0 \\text{ : } \\mu_C \\text{  =  } \\Delta\\mu_T\\text{,} \\quad \\Delta > 1$$")),
       radioButtons("margin", "Type of margin used:",
                    c("Additive" = "add", "Multiplicative" = "multi")),
 
@@ -34,7 +34,7 @@ fluidPage(
                    value = 5, step = 0.01),
 
       sliderInput("marginval", "Margin:",
-                  min = 0, max = 2,
+                  min = 0, max = 5,
                   value = 1.1, step = 0.01),
 
       #
