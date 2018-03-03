@@ -12,27 +12,30 @@ fluidPage(
 
     # Sidebar to demonstrate various slider options ----
     sidebarPanel(
-
+      p("Additve:"),
+      p(withMathJax("$$H_0 \\text{ : } \\mu_C \\text{  =  } \\mu_T  \\text{ + } \\Delta$$")),
+      p("Multiplicative:"),
+      p(withMathJax("$$H_0 \\text{ : } \\mu_C \\text{  =  } \\Delta\\mu_T$$")),
       radioButtons("margin", "Type of margin used:",
                    c("Additive" = "add", "Multiplicative" = "multi")),
 
       # Input: Simple integer interval ----
       numericInput("varC", "Variance of Control:",
                   min = 0, max = 100,
-                  value = 20, step = 0.001),
+                  value = 20, step = 0.01),
 
       # Input: Decimal interval with step value ----
       numericInput("varT", "Variance of Treatment:",
                   min = 0, max = 100,
-                  value = 20, step = 0.001),
+                  value = 20, step = 0.01),
 
       numericInput("muC", "Mean of Control:",
                    min = 0, max = 100,
-                   value = 5, step = 0.001),
+                   value = 5, step = 0.01),
 
       sliderInput("marginval", "Margin:",
                   min = 0, max = 2,
-                  value = 1.1, step = 0.001),
+                  value = 1.1, step = 0.01),
 
       #
       selectInput("type1", "Type 1:", c("0.01", "0.025", "0.05", "0.1")),
