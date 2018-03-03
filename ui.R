@@ -45,13 +45,11 @@ fluidPage(
     mainPanel(
 
       # Output: Table summarizing the values entered ----
-      h4("Sample Size and Eficiency"),
-      tableOutput("values"), 
-      
-      h4("Plot of Efficiency"),
+      h3("Sample Size and Eficiency"),
+      tableOutput("values"),
+
+      h3("Plot of Efficiency"),
       plotlyOutput("plot")
-    )
-    
-    
-)
+    )),
+    print("Thevaa Chandereng, Rick Chappell")
 )
