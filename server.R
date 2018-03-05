@@ -1,6 +1,41 @@
-library(SSNI)
 library(plotly)
 h  <- seq(0.05, 0.95, 0.005)
+
+multi.margin <- function(delta, varC, varT = NULL, muC,  alpha = 0.05, beta = 0.20){
+  stopifnot(delta > 1, alpha  > 0, beta > 0, varC > 0)
+  if(is.null(varT)){
+    k <- 1 / (delta)
+    varT <- varC
+  }
+  else{
+    k <- sqrt(varC) / (delta * sqrt(varT))
+  }
+  nT <- (qnorm(1 - alpha / 2) + qnorm(1 - beta))^2 * (delta^2 * varT + varC / k) / (muC * (1 - delta))^2
+  nC <- k * nT
+  eff <- 2 * (varC + delta^2 * varT) / (sqrt(varC) + delta * sqrt(varT))^2
+  return(list(control = nC, treatment = nT, randomization = k, efficiency = eff))
+}
+
+add.margin <- function(delta, varC, varT = NULL, alpha = 0.05, beta = 0.20){
+  stopifnot(delta > 0, alpha  > 0, beta > 0, varC > 0)
+  if(is.null(varT)){
+    k <- 1
+    varT <- varC
+  }
+  else{
+    k <- sqrt(varC) / sqrt(varT)
+  }
+  nT <- (qnorm(1 - alpha / 2) + qnorm(1 - beta))^2 * (varT + varC / k) / (delta)^2
+  nC <- k * nT
+  if(k == 1){
+    eff <- 1
+  }
+  else{
+    eff <- 2 * (varC + varT) / (sqrt(varC) + sqrt(varT))^2
+  }
+  return(list(control = nC, treatment = nT, randomization = k, efficiency = eff))
+}
+
 
 function(input, output) {
   sliderValues <- reactive({
@@ -9,7 +44,7 @@ function(input, output) {
                  alpha = as.numeric(input$type1), beta = 1 - as.numeric(input$power))
       data.frame(Output = c("Sample Size in Control",
                             "Sample Size in Treatment",
-                            "Randomization treatment to control (k:1)",
+                            "Randomization control to treatment (k:1))",
                             "Realtive Efficiency (compared to 1:1)"),
       Values =  c(ceiling(val$control), ceiling(val$treatment), val$randomization, val$efficiency))
     }
@@ -18,7 +53,7 @@ function(input, output) {
                           alpha = as.numeric(input$type1), beta = 1 - as.numeric(input$power))
       data.frame(Output = c("Sample Size in Control",
                             "Sample Size in Treatment",
-                            "Randomization treatment to control (k:1)",
+                            "Randomization control to treatment (k:1)",
                             "Realtive Efficiency (compared to 1:1)"),
                  Values = c(ceiling(val$control), ceiling(val$treatment), val$randomization, val$efficiency))
     }
