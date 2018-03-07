@@ -10,7 +10,7 @@ multi.margin <- function(delta, varC, varT = NULL, muC,  alpha = 0.05, beta = 0.
   else{
     k <- sqrt(varC) / (delta * sqrt(varT))
   }
-  nT <- (qnorm(1 - alpha / 2) + qnorm(1 - beta))^2 * (delta^2 * varT + varC / k) / (muC * (1 - delta))^2
+  nT <- (qnorm(1 - alpha) + qnorm(1 - beta))^2 * (delta^2 * varT + varC / k) / (muC * (1 - delta))^2
   nC <- k * nT
   eff <- 2 * (varC + delta^2 * varT) / (sqrt(varC) + delta * sqrt(varT))^2
   return(list(control = nC, treatment = nT, randomization = k, efficiency = eff))
@@ -25,7 +25,7 @@ add.margin <- function(delta, varC, varT = NULL, alpha = 0.05, beta = 0.20){
   else{
     k <- sqrt(varC) / sqrt(varT)
   }
-  nT <- (qnorm(1 - alpha / 2) + qnorm(1 - beta))^2 * (varT + varC / k) / (delta)^2
+  nT <- (qnorm(1 - alpha) + qnorm(1 - beta))^2 * (varT + varC / k) / (delta)^2
   nC <- k * nT
   if(k == 1){
     eff <- 1
@@ -39,38 +39,119 @@ add.margin <- function(delta, varC, varT = NULL, alpha = 0.05, beta = 0.20){
 
 function(input, output) {
   sliderValues <- reactive({
-    if(input$margin == "add"){
-      val <- add.margin(delta = input$marginval, varC = input$varC, varT = input$varT,
-                 alpha = as.numeric(input$type1), beta = 1 - as.numeric(input$power))
+    # for normal data
+    if(input$dist == "Normal"){
+      if(input$margin == "add"){
+      val <- add.margin(delta = input$marginval_n, varC = input$varC, varT = input$varT,
+                        alpha = as.numeric(input$type1_n), beta = 1 - as.numeric(input$power_n))
       data.frame(Output = c("Sample Size in Control",
                             "Sample Size in Treatment",
                             "Randomization control to treatment (k:1))",
                             "Realtive Efficiency (compared to 1:1)"),
-      Values =  c(ceiling(val$control), ceiling(val$treatment), val$randomization, val$efficiency))
+                 Values =  c(ceiling(val$control), ceiling(val$treatment), val$randomization, val$efficiency))
     }
     else{
-      val <- multi.margin(delta = input$marginval, muC = input$muC, varC = input$varC, varT = input$varT,
-                          alpha = as.numeric(input$type1), beta = 1 - as.numeric(input$power))
+      val <- multi.margin(delta = input$marginval_n, muC = input$muC, varC = input$varC, varT = input$varT,
+                          alpha = as.numeric(input$type1_n), beta = 1 - as.numeric(input$power_n))
       data.frame(Output = c("Sample Size in Control",
                             "Sample Size in Treatment",
                             "Randomization control to treatment (k:1)",
                             "Realtive Efficiency (compared to 1:1)"),
                  Values = c(ceiling(val$control), ceiling(val$treatment), val$randomization, val$efficiency))
     }
-  })
-  eff <- reactive({
+  }
+    
+    else if(input$dist == "Binomial"){
       if(input$margin == "add"){
-          data.frame(control = ceiling(h * sum(as.numeric(add.margin(delta = input$marginval, varC = input$varC, varT = input$varT,
-                                                             alpha = as.numeric(input$type1), beta = 1 - as.numeric(input$power)))[1:2])),
-                     eff1 = (input$varC^2 / (h) + input$varT^2/ (1 - h)) / (input$varC + input$varT)^2)
+        val <- add.margin(delta = input$marginval_b, varC = input$pC * (1 - input$pC), varT = input$pT * (1 - input$pT),
+                          alpha = as.numeric(input$type1_b), beta = 1 - as.numeric(input$power_b))
+        data.frame(Output = c("Sample Size in Control",
+                              "Sample Size in Treatment",
+                              "Randomization control to treatment (k:1))",
+                              "Realtive Efficiency (compared to 1:1)"),
+                   Values =  c(ceiling(val$control), ceiling(val$treatment), val$randomization, val$efficiency))
       }
       else{
-          data.frame(control = ceiling(h * sum(as.numeric(multi.margin(delta = input$marginval, muC = input$muC, varC = input$varC, varT = input$varT,
-                                                               alpha = as.numeric(input$type1), beta = 1 - as.numeric(input$power)))[1:2])),
-                     eff1 = (input$varC^2 / h + input$marginval^2 * input$varT^2/ (1 - h)) / (input$varC + input$marginval * input$varT)^2)
+        val <- multi.margin(delta = input$marginval_b, muC = input$pC, varC = input$pC * (1 - input$pC), varT = input$pT * (1 - input$pT),
+                            alpha = as.numeric(input$type1_b), beta = 1 - as.numeric(input$power_b))
+        data.frame(Output = c("Sample Size in Control",
+                              "Sample Size in Treatment",
+                              "Randomization control to treatment (k:1)",
+                              "Realtive Efficiency (compared to 1:1)"),
+                   Values = c(ceiling(val$control), ceiling(val$treatment), val$randomization, val$efficiency))
       }
-  })
+    }
+    
+    
+    else if(input$dist == "Poisson"){
+      if(input$margin == "add"){
+        val <- add.margin(delta = input$marginval_p, varC = input$lambdaC, varT = input$lambdaT,
+                          alpha = as.numeric(input$type1_p), beta = 1 - as.numeric(input$power_p))
+        data.frame(Output = c("Sample Size in Control",
+                              "Sample Size in Treatment",
+                              "Randomization control to treatment (k:1))",
+                              "Realtive Efficiency (compared to 1:1)"),
+                   Values =  c(ceiling(val$control), ceiling(val$treatment), val$randomization, val$efficiency))
+      }
+      else{
+        val <- multi.margin(delta = input$marginval, muC = input$lambdaC, varC = input$lambdaC , varT = input$lambdaT,
+                            alpha = as.numeric(input$type1), beta = 1 - as.numeric(input$power))
+        data.frame(Output = c("Sample Size in Control",
+                              "Sample Size in Treatment",
+                              "Randomization control to treatment (k:1)",
+                              "Realtive Efficiency (compared to 1:1)"),
+                   Values = c(ceiling(val$control), ceiling(val$treatment), val$randomization, val$efficiency))
+      }
+    }
+    })
+  
+  
+  
+  eff <- reactive({
+    
+    if(input$dist == "Normal"){      
+      if(input$margin == "add"){
+        data.frame(control = ceiling(h * sum(as.numeric(add.margin(delta = input$marginval_n, varC = input$varC, varT = input$varT,
+                                                                   alpha = as.numeric(input$type1_n), beta = 1 - as.numeric(input$power_n)))[1:2])),
+                   eff1 = (input$varC / h + input$varT/ (1 - h)) / (sqrt(input$varC) + sqrt(input$varT))^2)
+      }
+      else{
+        data.frame(control = ceiling(h * sum(as.numeric(multi.margin(delta = input$marginval_n, muC = input$muC, varC = input$varC, varT = input$varT,
+                                                                     alpha = as.numeric(input$type1_n), beta = 1 - as.numeric(input$power_n)))[1:2])),
+                   eff1 = (input$varC / h + input$marginval^2 * input$varT/ (1 - h)) / (sqrt(input$varC) + input$marginval * sqrt(input$varT))^2)
+      }
+    }
+    
+    
+    else if(input$dist == "Binomial"){      
+      if(input$margin == "add"){
+        data.frame(control = ceiling(h * sum(as.numeric(add.margin(delta = input$marginval_b, varC = input$pC * (1 - input$pC), varT = input$pT * (1 - input$pT),
+                            alpha = as.numeric(input$type1_b), beta = 1 - as.numeric(input$power_b)))[1:2])),
+                   eff1 = (input$pC *(1 - input$pC)  / (h) + input$pT *(1 - input$pT) / (1 - h)) / (sqrt(input$pC *(1 - input$pC)) + sqrt(input$pT *(1 - input$pT)))^2)
+      }
+      else{
+        data.frame(control = ceiling(h * sum(as.numeric(multi.margin(delta = input$marginval_n, muC = input$muC, varC = input$varC, varT = input$varT,
+                                                                     alpha = as.numeric(input$type1_n), beta = 1 - as.numeric(input$power_n)))[1:2])),
+                   eff1 = (input$pC *(1 - input$pC)  / h + input$marginval^2 * input$pT *(1 - input$pT) / (1 - h)) / (sqrt(input$pC *(1 - input$pC)) + input$marginval * sqrt(input$pT *(1 - input$pT)))^2)
+      }
+    }
 
+    
+    else if(input$dist == "Poisson"){      
+      if(input$margin == "add"){
+        data.frame(control = ceiling(h * sum(as.numeric(add.margin(delta = input$marginval_p, varC = input$lambdaC, varT = input$lambdaT,
+                                                                   alpha = as.numeric(input$type1_p), beta = 1 - as.numeric(input$power_p)))[1:2])),
+                   eff1 = (input$lambdaC / h + input$lambdaT/ (1 - h)) / (sqrt(input$lambdaC) + sqrt(input$lambdaT))^2)
+      }
+      else{
+        data.frame(control = ceiling(h * sum(as.numeric(multi.margin(delta = input$marginval_n, muC = input$lambdaC, varC = input$muC, varT = input$muT,
+                                                                     alpha = as.numeric(input$type1_p), beta = 1 - as.numeric(input$power_p)))[1:2])),
+                   eff1 = (input$lambdaC / h + input$marginval^2 * input$lambdaT/ (1 - h)) / (sqrt(input$lambdaC) + input$marginval * sqrt(input$lambdaT))^2)
+      }
+    }
+    
+  })
+  
   # Show the values in an HTML table ----
   output$values <- renderTable({
     sliderValues()
