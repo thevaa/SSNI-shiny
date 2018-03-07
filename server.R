@@ -63,6 +63,8 @@ function(input, output) {
     
     else if(input$dist == "Binomial"){
       if(input$margin == "add"){
+        if(input$marginval_b + input$pT != input$pC){stop("Error in values!")}
+        else{
         val <- add.margin(delta = input$marginval_b, varC = input$pC * (1 - input$pC), varT = input$pT * (1 - input$pT),
                           alpha = as.numeric(input$type1_b), beta = 1 - as.numeric(input$power_b))
         data.frame(Output = c("Sample Size in Control",
@@ -70,6 +72,7 @@ function(input, output) {
                               "Randomization control to treatment (k:1))",
                               "Realtive Efficiency (compared to 1:1)"),
                    Values =  c(ceiling(val$control), ceiling(val$treatment), val$randomization, val$efficiency))
+        }
       }
       else{
         val <- multi.margin(delta = input$marginval_b, muC = input$pC, varC = input$pC * (1 - input$pC), varT = input$pT * (1 - input$pT),
