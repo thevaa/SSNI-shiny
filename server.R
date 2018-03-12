@@ -41,7 +41,7 @@ function(input, output) {
   sliderValues <- reactive({
     # for normal data
     if(input$dist == "Normal"){
-      if(input$margin == "add"){
+      if(input$margin_n == "add"){
       val <- add.margin(delta = input$marginval_n, varC = input$varC, varT = input$varT,
                         alpha = as.numeric(input$type1_n), beta = 1 - as.numeric(input$power_n))
       data.frame(Output = c("Sample Size in Control",
@@ -61,7 +61,7 @@ function(input, output) {
     }
   }
     else if(input$dist == "Binomial"){
-      if(input$margin == "add"){
+      if(input$margin_b == "add"){
         pT <- input$pC - input$marginval_b
         val <- add.margin(delta = input$marginval_b, varC = input$pC * (1 - input$pC), varT = pT * (1 - pT),
                           alpha = as.numeric(input$type1_b), beta = 1 - as.numeric(input$power_b))
@@ -85,7 +85,7 @@ function(input, output) {
     
     
     else if(input$dist == "Poisson"){
-      if(input$margin == "add"){
+      if(input$margin_p == "add"){
         lambdaT <- input$lambdaC - input$marginval_p
         val <- add.margin(delta = input$marginval_p, varC = input$lambdaC, varT = lambdaT,
                           alpha = as.numeric(input$type1_p), beta = 1 - as.numeric(input$power_p))
@@ -113,7 +113,7 @@ function(input, output) {
   eff <- reactive({
     
     if(input$dist == "Normal"){      
-      if(input$margin == "add"){
+      if(input$margin_n == "add"){
         data.frame(control = ceiling(h * sum(as.numeric(add.margin(delta = input$marginval_n, varC = input$varC, varT = input$varT,
                                      alpha = as.numeric(input$type1_n), beta = 1 - as.numeric(input$power_n)))[1:2])),
                    eff1 = (input$varC / h + input$varT/ (1 - h)) / (sqrt(input$varC) + sqrt(input$varT))^2)
@@ -126,7 +126,7 @@ function(input, output) {
     }
     
     else if(input$dist == "Binomial"){      
-      if(input$margin == "add"){
+      if(input$margin_b == "add"){
         pT <- input$pC - input$marginval_b
         data.frame(control = ceiling(h * sum(as.numeric(add.margin(delta = input$marginval_b, varC = input$pC * (1 - input$pC), varT = pT * (1 - pT),
                             alpha = as.numeric(input$type1_b), beta = 1 - as.numeric(input$power_b)))[1:2])),
@@ -142,7 +142,7 @@ function(input, output) {
 
     
     else if(input$dist == "Poisson"){      
-      if(input$margin == "add"){
+      if(input$margin_p == "add"){
         lambdaT  <- input$lambdaC - input$marginval_p
         data.frame(control = ceiling(h * sum(as.numeric(add.margin(delta = input$marginval_p, varC = input$lambdaC, varT = lambdaT,
                     alpha = as.numeric(input$type1_p), beta = 1 - as.numeric(input$power_p)))[1:2])),

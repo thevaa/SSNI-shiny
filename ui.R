@@ -19,7 +19,8 @@ fluidPage(
     p(withMathJax("$$H_0 \\text{ : } \\mu_C \\text{  =  } \\mu_T  \\text{ + } \\Delta \\text{,} \\quad \\Delta > 0$$")),
     p("Multiplicative:"),
     p(withMathJax("$$H_0 \\text{ : } \\mu_C \\text{  =  } \\Delta\\mu_T\\text{,} \\quad \\Delta > 1$$")),
-    radioButtons("margin", "Type of margin used:",
+
+    radioButtons("margin_n", "Type of margin used:",
                  c("Additive" = "add", "Multiplicative" = "multi")),
     
     # Input: Simple integer interval ----
@@ -55,7 +56,8 @@ fluidPage(
       p(withMathJax("$$H_0 \\text{ : } p_C \\text{  =  } p_T  \\text{ + } \\Delta \\text{,} \\quad \\Delta > 0$$")),
       p("Multiplicative:"),
       p(withMathJax("$$H_0 \\text{ : } p_C \\text{  =  } \\Delta p_T\\text{,} \\quad \\Delta > 1$$")),
-      radioButtons("margin", "Type of margin used:",
+
+      radioButtons("margin_b", "Type of margin used:",
                    c("Additive" = "add", "Multiplicative" = "multi")),
       numericInput("pC", withMathJax("Control Group Proportion,  $p_C:$"),
                    min = 0, max = 1,
@@ -74,7 +76,8 @@ fluidPage(
     p(withMathJax("$$H_0 \\text{ : } \\lambda_C \\text{  =  } \\lambda_T  \\text{ + } \\Delta \\text{,} \\quad \\Delta > 0$$")),
     p("Multiplicative:"),
     p(withMathJax("$$H_0 \\text{ : } \\lambda_C \\text{  =  } \\Delta \\lambda_T\\text{,} \\quad \\Delta > 1$$")),
-    radioButtons("margin", "Type of margin used:",
+
+    radioButtons("margin_p", "Type of margin used:",
                  c("Additive" = "add", "Multiplicative" = "multi")),
     numericInput("lambdaC", withMathJax("Mean of Control,  $\\lambda_C:$"),
                  min = 0, max = 50,
