@@ -42,10 +42,10 @@ fluidPage(
                 value = 1.1, step = 0.01),
     
     #
-    selectInput("type1_n", "Type 1:", c("0.01", "0.025", "0.05", "0.1")),
+    selectInput("type1_n", "Type 1:", c("0.01", "0.025", "0.05", "0.1"), selected = "0.05"),
     # Input: Animation with custom interval (in ms) ----
     # to control speed, plus looping
-    selectInput("power_n", "Power:", c("0.8", "0.9", "0.95"))
+    selectInput("power_n", "Power:", c("0.8", "0.9", "0.95"), selected = "0.9")
   ),
   
   
@@ -65,8 +65,8 @@ fluidPage(
       sliderInput("marginval_b", "Margin:",
                   min = 0, max = 2,
                   value = 0.05, step = 0.002),
-      selectInput("type1_b", "Type 1:", c("0.01", "0.025", "0.05", "0.1")),
-      selectInput("power_b", "Power:", c("0.8", "0.9", "0.95"))
+      selectInput("type1_b", "Type 1:", c("0.01", "0.025", "0.05", "0.1"), selected = "0.05" ),
+      selectInput("power_b", "Power:", c("0.8", "0.9", "0.95"), selected = "0.9")
     ),
   
   
@@ -85,8 +85,8 @@ fluidPage(
     sliderInput("marginval_p", "Margin:",
                 min = 0, max = 2,
                 value = 1.2, step = 0.01),
-    selectInput("type1_p", "Type 1:", c("0.01", "0.025", "0.05", "0.1")),
-    selectInput("power_p", "Power:", c("0.8", "0.9", "0.95"))
+    selectInput("type1_p", "Type 1:", c("0.01", "0.025", "0.05", "0.1"), selected = "0.05"),
+    selectInput("power_p", "Power:", c("0.8", "0.9", "0.95"), selected= "0.9")
     )),
     # Main panel for displaying outputs ----
     mainPanel(
