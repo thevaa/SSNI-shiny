@@ -60,7 +60,6 @@ function(input, output) {
                  Values = c(ceiling(val$control), ceiling(val$treatment), val$randomization, val$efficiency))
     }
   }
-    
     else if(input$dist == "Binomial"){
       if(input$margin == "add"){
         pT <- input$pC - input$marginval_b
@@ -126,35 +125,37 @@ function(input, output) {
       }
     }
     
-    
     else if(input$dist == "Binomial"){      
       if(input$margin == "add"){
-        data.frame(control = ceiling(h * sum(as.numeric(add.margin(delta = input$marginval_b, varC = input$pC * (1 - input$pC), varT = input$pT * (1 - input$pT),
+        pT <- input$pC - input$marginval_b
+        data.frame(control = ceiling(h * sum(as.numeric(add.margin(delta = input$marginval_b, varC = input$pC * (1 - input$pC), varT = pT * (1 - pT),
                             alpha = as.numeric(input$type1_b), beta = 1 - as.numeric(input$power_b)))[1:2])),
-                   eff1 = (input$pC *(1 - input$pC)  / (h) + input$pT *(1 - input$pT) / (1 - h)) / (sqrt(input$pC *(1 - input$pC)) + sqrt(input$pT *(1 - input$pT)))^2)
+                   eff1 = (input$pC *(1 - input$pC)  / (h) + pT *(1 - pT) / (1 - h)) / (sqrt(input$pC *(1 - input$pC)) + sqrt(pT *(1 - pT)))^2)
       }
       else{
-        data.frame(control = ceiling(h * sum(as.numeric(multi.margin(delta = input$marginval_n, muC = input$muC, varC = input$varC, varT = input$varT,
-                                                                     alpha = as.numeric(input$type1_n), beta = 1 - as.numeric(input$power_n)))[1:2])),
-                   eff1 = (input$pC *(1 - input$pC)  / h + input$marginval^2 * input$pT *(1 - input$pT) / (1 - h)) / (sqrt(input$pC *(1 - input$pC)) + input$marginval * sqrt(input$pT *(1 - input$pT)))^2)
+        pT <- input$pC / input$marginval_b
+        data.frame(control = ceiling(h * sum(as.numeric(multi.margin(delta = input$marginval_b, muC = input$pC, varC = input$pC * (1 - input$pC), varT = pT * (1 - pT),
+                                                                     alpha = as.numeric(input$type1_b), beta = 1 - as.numeric(input$power_b)))[1:2])),
+                   eff1 = (input$pC *(1 - input$pC)  / h + input$marginval^2 * pT *(1 - pT) / (1 - h)) / (sqrt(input$pC *(1 - input$pC)) + input$marginval * sqrt(pT *(1 - pT)))^2)
       }
     }
 
     
     else if(input$dist == "Poisson"){      
       if(input$margin == "add"){
-        data.frame(control = ceiling(h * sum(as.numeric(add.margin(delta = input$marginval_p, varC = input$lambdaC, varT = input$lambdaT,
-                                                                   alpha = as.numeric(input$type1_p), beta = 1 - as.numeric(input$power_p)))[1:2])),
-                   eff1 = (input$lambdaC / h + input$lambdaT/ (1 - h)) / (sqrt(input$lambdaC) + sqrt(input$lambdaT))^2)
+        lambdaT  <- input$lambdaC - input$marginval_p
+        data.frame(control = ceiling(h * sum(as.numeric(add.margin(delta = input$marginval_p, varC = input$lambdaC, varT = lambdaT,
+                    alpha = as.numeric(input$type1_p), beta = 1 - as.numeric(input$power_p)))[1:2])),
+                   eff1 = (input$lambdaC / h + lambdaT/ (1 - h)) / (sqrt(input$lambdaC) + sqrt(lambdaT))^2)
       }
       else{
-        data.frame(control = ceiling(h * sum(as.numeric(multi.margin(delta = input$marginval_n, muC = input$lambdaC, varC = input$muC, varT = input$muT,
+        lambdaT  <- input$lambdaC / input$marginval_p
+        data.frame(control = ceiling(h * sum(as.numeric(multi.margin(delta = input$marginval_p, muC = input$lambdaC, varC = input$lambdaC, varT = lambdaT,
                                                                      alpha = as.numeric(input$type1_p), beta = 1 - as.numeric(input$power_p)))[1:2])),
-                   eff1 = (input$lambdaC / h + input$marginval^2 * input$lambdaT/ (1 - h)) / (sqrt(input$lambdaC) + input$marginval * sqrt(input$lambdaT))^2)
+                   eff1 = (input$lambdaC / h + input$marginval^2 * lambdaT/ (1 - h)) / (sqrt(input$lambdaC) + input$marginval * sqrt(lambdaT))^2)
       }
     }
-    
-  })
+})
   
   # Show the values in an HTML table ----
   output$values <- renderTable({
