@@ -63,19 +63,18 @@ function(input, output) {
     
     else if(input$dist == "Binomial"){
       if(input$margin == "add"){
-        if(input$marginval_b + input$pT != input$pC){stop("Error in values!")}
-        else{
-        val <- add.margin(delta = input$marginval_b, varC = input$pC * (1 - input$pC), varT = input$pT * (1 - input$pT),
+        pT <- input$pC - input$marginval_b
+        val <- add.margin(delta = input$marginval_b, varC = input$pC * (1 - input$pC), varT = pT * (1 - pT),
                           alpha = as.numeric(input$type1_b), beta = 1 - as.numeric(input$power_b))
         data.frame(Output = c("Sample Size in Control",
                               "Sample Size in Treatment",
                               "Randomization control to treatment (k:1))",
                               "Realtive Efficiency (compared to 1:1)"),
                    Values =  c(ceiling(val$control), ceiling(val$treatment), val$randomization, val$efficiency))
-        }
       }
       else{
-        val <- multi.margin(delta = input$marginval_b, muC = input$pC, varC = input$pC * (1 - input$pC), varT = input$pT * (1 - input$pT),
+        pT <- input$pC / input$marginval_b
+        val <- multi.margin(delta = input$marginval_b, muC = input$pC, varC = input$pC * (1 - input$pC), varT = pT * (1 - pT),
                             alpha = as.numeric(input$type1_b), beta = 1 - as.numeric(input$power_b))
         data.frame(Output = c("Sample Size in Control",
                               "Sample Size in Treatment",
@@ -88,7 +87,8 @@ function(input, output) {
     
     else if(input$dist == "Poisson"){
       if(input$margin == "add"){
-        val <- add.margin(delta = input$marginval_p, varC = input$lambdaC, varT = input$lambdaT,
+        lambdaT <- input$lambdaC - input$marginval_p
+        val <- add.margin(delta = input$marginval_p, varC = input$lambdaC, varT = lambdaT,
                           alpha = as.numeric(input$type1_p), beta = 1 - as.numeric(input$power_p))
         data.frame(Output = c("Sample Size in Control",
                               "Sample Size in Treatment",
@@ -97,8 +97,9 @@ function(input, output) {
                    Values =  c(ceiling(val$control), ceiling(val$treatment), val$randomization, val$efficiency))
       }
       else{
-        val <- multi.margin(delta = input$marginval, muC = input$lambdaC, varC = input$lambdaC , varT = input$lambdaT,
-                            alpha = as.numeric(input$type1), beta = 1 - as.numeric(input$power))
+        lambdaT <- input$lambdaC / input$marginval_p
+        val <- multi.margin(delta = input$marginval_p, muC = input$lambdaC, varC = input$lambdaC , varT = lambdaT,
+                            alpha = as.numeric(input$type1_p), beta = 1 - as.numeric(input$power_p))
         data.frame(Output = c("Sample Size in Control",
                               "Sample Size in Treatment",
                               "Randomization control to treatment (k:1)",
@@ -115,7 +116,7 @@ function(input, output) {
     if(input$dist == "Normal"){      
       if(input$margin == "add"){
         data.frame(control = ceiling(h * sum(as.numeric(add.margin(delta = input$marginval_n, varC = input$varC, varT = input$varT,
-                                                                   alpha = as.numeric(input$type1_n), beta = 1 - as.numeric(input$power_n)))[1:2])),
+                                     alpha = as.numeric(input$type1_n), beta = 1 - as.numeric(input$power_n)))[1:2])),
                    eff1 = (input$varC / h + input$varT/ (1 - h)) / (sqrt(input$varC) + sqrt(input$varT))^2)
       }
       else{
