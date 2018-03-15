@@ -22,7 +22,8 @@ fluidPage(
 
     radioButtons("margin_n", "Type of margin used:",
                  c("Additive" = "add", "Multiplicative" = "multi")),
-    
+
+
     # Input: Simple integer interval ----
     numericInput("varC", withMathJax("Variance of Control: ,  $\\sigma_C^2:$"),
                  min = 0, max = 100,
@@ -36,11 +37,16 @@ fluidPage(
     numericInput("muC", withMathJax("Mean of Control: ,  $\\mu_C:$"),
                  min = 0, max = 100,
                  value = 5, step = 0.01),
-    
-    sliderInput("marginval_n", "Margin:",
-                min = 0, max = 5,
-                value = 1.1, step = 0.01),
-    
+
+
+
+    conditionalPanel(condition = "input.margin_n == 'add'",
+                    sliderInput("marginval_n1", "Margin:", min = 0.01, max = 5, value = 0.4, step = 0.01)),
+
+    conditionalPanel(condition = "input.margin_n == 'multi'",
+                     sliderInput("marginval_n2", "Margin:", min = 1.01, max = 2, value = 1.1, step = 0.01)),
+
+
     #
     selectInput("type1_n", "Type 1:", c("0.01", "0.025", "0.05", "0.1"), selected = "0.05"),
     # Input: Animation with custom interval (in ms) ----
