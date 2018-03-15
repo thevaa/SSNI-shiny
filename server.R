@@ -42,7 +42,7 @@ function(input, output) {
     # for normal data
     if(input$dist == "Normal"){
       if(input$margin_n == "add"){
-      val <- add.margin(delta = input$marginval_n, varC = input$varC, varT = input$varT,
+      val <- add.margin(delta = input$marginval_n1, varC = input$varC, varT = input$varT,
                         alpha = as.numeric(input$type1_n), beta = 1 - as.numeric(input$power_n))
       data.frame(Output = c("Sample Size in Control",
                             "Sample Size in Treatment",
@@ -51,7 +51,7 @@ function(input, output) {
                  Values =  c(ceiling(val$control), ceiling(val$treatment), val$randomization, val$efficiency))
     }
     else{
-      val <- multi.margin(delta = input$marginval_n, muC = input$muC, varC = input$varC, varT = input$varT,
+      val <- multi.margin(delta = input$marginval_n2, muC = input$muC, varC = input$varC, varT = input$varT,
                           alpha = as.numeric(input$type1_n), beta = 1 - as.numeric(input$power_n))
       data.frame(Output = c("Sample Size in Control",
                             "Sample Size in Treatment",
@@ -114,14 +114,14 @@ function(input, output) {
     
     if(input$dist == "Normal"){      
       if(input$margin_n == "add"){
-        data.frame(control = ceiling(h * sum(as.numeric(add.margin(delta = input$marginval_n, varC = input$varC, varT = input$varT,
+        data.frame(control = ceiling(h * sum(as.numeric(add.margin(delta = input$marginval_n1, varC = input$varC, varT = input$varT,
                                      alpha = as.numeric(input$type1_n), beta = 1 - as.numeric(input$power_n)))[1:2])),
                    eff1 = (input$varC / h + input$varT/ (1 - h)) / (sqrt(input$varC) + sqrt(input$varT))^2)
       }
       else{
-        data.frame(control = ceiling(h * sum(as.numeric(multi.margin(delta = input$marginval_n, muC = input$muC, varC = input$varC, varT = input$varT,
+        data.frame(control = ceiling(h * sum(as.numeric(multi.margin(delta = input$marginval_n2, muC = input$muC, varC = input$varC, varT = input$varT,
                                                                      alpha = as.numeric(input$type1_n), beta = 1 - as.numeric(input$power_n)))[1:2])),
-                   eff1 = (input$varC / h + input$marginval^2 * input$varT/ (1 - h)) / (sqrt(input$varC) + input$marginval * sqrt(input$varT))^2)
+                   eff1 = (input$varC / h + input$marginval_n2^2 * input$varT/ (1 - h)) / (sqrt(input$varC) + input$marginval_n2 * sqrt(input$varT))^2)
       }
     }
     
@@ -136,7 +136,7 @@ function(input, output) {
         pT <- input$pC / input$marginval_b
         data.frame(control = ceiling(h * sum(as.numeric(multi.margin(delta = input$marginval_b, muC = input$pC, varC = input$pC * (1 - input$pC), varT = pT * (1 - pT),
                                                                      alpha = as.numeric(input$type1_b), beta = 1 - as.numeric(input$power_b)))[1:2])),
-                   eff1 = (input$pC *(1 - input$pC)  / h + input$marginval^2 * pT *(1 - pT) / (1 - h)) / (sqrt(input$pC *(1 - input$pC)) + input$marginval * sqrt(pT *(1 - pT)))^2)
+                   eff1 = (input$pC *(1 - input$pC)  / h + input$marginval_b^2 * pT *(1 - pT) / (1 - h)) / (sqrt(input$pC *(1 - input$pC)) + input$marginval_b * sqrt(pT *(1 - pT)))^2)
       }
     }
 
@@ -152,7 +152,7 @@ function(input, output) {
         lambdaT  <- input$lambdaC / input$marginval_p
         data.frame(control = ceiling(h * sum(as.numeric(multi.margin(delta = input$marginval_p, muC = input$lambdaC, varC = input$lambdaC, varT = lambdaT,
                                                                      alpha = as.numeric(input$type1_p), beta = 1 - as.numeric(input$power_p)))[1:2])),
-                   eff1 = (input$lambdaC / h + input$marginval^2 * lambdaT/ (1 - h)) / (sqrt(input$lambdaC) + input$marginval * sqrt(lambdaT))^2)
+                   eff1 = (input$lambdaC / h + input$marginval_p^2 * lambdaT/ (1 - h)) / (sqrt(input$lambdaC) + input$marginval_p * sqrt(lambdaT))^2)
       }
     }
 })
