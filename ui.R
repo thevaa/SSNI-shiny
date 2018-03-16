@@ -41,10 +41,10 @@ fluidPage(
 
 
     conditionalPanel(condition = "input.margin_n == 'add'",
-                    sliderInput("marginval_n1", "Margin:", min = 0.01, max = 5, value = 0.4, step = 0.01)),
+                    sliderInput("marginval_n1", withMathJax("Margin,  $\\Delta$:"), min = 0.01, max = 5, value = 0.4, step = 0.01)),
 
     conditionalPanel(condition = "input.margin_n == 'multi'",
-                     sliderInput("marginval_n2", "Margin:", min = 1.01, max = 2, value = 1.1, step = 0.01)),
+                     sliderInput("marginval_n2", withMathJax("Margin,  $\\Delta$:"), min = 1.01, max = 2, value = 1.1, step = 0.01)),
 
 
     #
@@ -65,12 +65,18 @@ fluidPage(
 
       radioButtons("margin_b", "Type of margin used:",
                    c("Additive" = "add", "Multiplicative" = "multi")),
+      
       numericInput("pC", withMathJax("Control Group Proportion,  $p_C:$"),
                    min = 0, max = 1,
                    value = 0.25, step = 0.001),
-      sliderInput("marginval_b", "Margin:",
-                  min = 0, max = 2,
-                  value = 0.05, step = 0.002),
+
+      conditionalPanel(condition = "input.margin_b == 'add'",
+      sliderInput("marginval_b1", withMathJax("Margin,  $\\Delta$:"), min = 0.001, max = 1 , value = 0.05, step = 0.001)),
+
+      conditionalPanel(condition = "input.margin_b == 'multi'",
+      sliderInput("marginval_b2", withMathJax("Margin,  $\\Delta$:"), min = 1.001, max = 2, value = 1.1, step = 0.001)),
+
+
       selectInput("type1_b", "Type 1:", c("0.01", "0.025", "0.05", "0.1"), selected = "0.05" ),
       selectInput("power_b", "Power:", c("0.8", "0.9", "0.95"), selected = "0.9")
     ),
@@ -88,9 +94,15 @@ fluidPage(
     numericInput("lambdaC", withMathJax("Mean of Control,  $\\lambda_C:$"),
                  min = 0, max = 50,
                  value = 3, step = 0.05),
-    sliderInput("marginval_p", "Margin:",
-                min = 0, max = 2,
-                value = 1.2, step = 0.01),
+    
+    conditionalPanel(condition = "input.margin_p == 'add'",
+                     sliderInput("marginval_p1", withMathJax("Margin,  $\\Delta$:"), min = 0.01, max = 3, value = 0.5, step = 0.01)),
+    
+    conditionalPanel(condition = "input.margin_p == 'multi'",
+                     sliderInput("marginval_p2", withMathJax("Margin,  $\\Delta$:"), min = 1.01, max = 2, value = 1.1, step = 0.01)),
+    
+    
+    
     selectInput("type1_p", "Type 1:", c("0.01", "0.025", "0.05", "0.1"), selected = "0.05"),
     selectInput("power_p", "Power:", c("0.8", "0.9", "0.95"), selected= "0.9")
     )),
