@@ -48,10 +48,10 @@ fluidPage(
 
 
     #
-    selectInput("type1_n", "Type 1:", c("0.01", "0.025", "0.05", "0.1"), selected = "0.05"),
+    selectInput("type1_n", withMathJax("Type I error,  $\\alpha$ (one-sided):"), c("0.01", "0.025", "0.05", "0.1"), selected = "0.025"),
     # Input: Animation with custom interval (in ms) ----
     # to control speed, plus looping
-    selectInput("power_n", "Power:", c("0.8", "0.9", "0.95"), selected = "0.9")
+    selectInput("power_n", withMathJax("Type II error,  $1 - \\beta$:"), c("0.8", "0.9", "0.95"), selected = "0.9")
   ),
   
   
@@ -77,8 +77,8 @@ fluidPage(
       sliderInput("marginval_b2", withMathJax("Margin,  $\\Delta$:"), min = 1.001, max = 2, value = 1.1, step = 0.001)),
 
 
-      selectInput("type1_b", "Type 1:", c("0.01", "0.025", "0.05", "0.1"), selected = "0.05" ),
-      selectInput("power_b", "Power:", c("0.8", "0.9", "0.95"), selected = "0.9")
+      selectInput("type1_b", withMathJax("Type I error,  $\\alpha$ (one-sided):"), c("0.01", "0.025", "0.05", "0.1"), selected = "0.025" ),
+      selectInput("power_b", withMathJax("Type II error,  $1 - \\beta$:"), c("0.8", "0.9", "0.95"), selected = "0.9")
     ),
   
   
@@ -103,8 +103,8 @@ fluidPage(
     
     
     
-    selectInput("type1_p", "Type 1:", c("0.01", "0.025", "0.05", "0.1"), selected = "0.05"),
-    selectInput("power_p", "Power:", c("0.8", "0.9", "0.95"), selected= "0.9")
+    selectInput("type1_p", withMathJax("Type I error,  $\\alpha$ (one-sided):"), c("0.01", "0.025", "0.05", "0.1"), selected = "0.025"),
+    selectInput("power_p", withMathJax("Type II error,  $1 - \\beta$:"), c("0.8", "0.9", "0.95"), selected= "0.9")
     )),
     # Main panel for displaying outputs ----
     mainPanel(
