@@ -1,7 +1,11 @@
+#calling two different libraries
 library(shiny)
 library(plotly)
+#sequence for different sample size sampling
 h  <- seq(0.05, 0.95, 0.005)
 
+
+#sample size for multiple margin for non-inferiority, beta = 1 - power 
 multi.margin <- function(delta, varC, varT = NULL, muC,  alpha = 0.05, beta = 0.20){
   stopifnot(delta > 1, alpha  > 0, beta > 0, varC > 0)
   if(is.null(varT)){
@@ -17,6 +21,7 @@ multi.margin <- function(delta, varC, varT = NULL, muC,  alpha = 0.05, beta = 0.
   return(list(control = nC, treatment = nT, randomization = k, efficiency = eff))
 }
 
+#sample size for additive margin in non-inferiority trial 
 add.margin <- function(delta, varC, varT = NULL, alpha = 0.05, beta = 0.20){
   stopifnot(delta > 0, alpha  > 0, beta > 0, varC > 0)
   if(is.null(varT)){
