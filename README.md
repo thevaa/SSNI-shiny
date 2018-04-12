@@ -1,4 +1,7 @@
 # SSNI-shiny
+
+**Authors**: Thevaa Chandereng and Rick Chappell
+
 Shiny app for sample size in non-inferiority trial with multiplicative and additive margin. 
 The sample size calculation is available for normal, poisson and binomial distribution. 
 It returns sample size for treatment and control, efficiency compared to 1:1 and randomization ratio.
