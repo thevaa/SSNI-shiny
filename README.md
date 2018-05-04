@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/thevaachandereng/SSNI-shiny.svg?branch=master)](https://travis-ci.org/thevaachandereng/SSNI-shiny)
+
 # SSNI-shiny
 
 **Authors**: Thevaa Chandereng and Rick Chappell
