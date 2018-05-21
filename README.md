@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/thevaachandereng/SSNI-shiny.svg?branch=master)](https://travis-ci.org/thevaachandereng/SSNI-shiny)
+[![DOI](https://zenodo.org/badge/122560390.svg)](https://zenodo.org/badge/latestdoi/122560390)
 
 # SSNI-shiny
 
