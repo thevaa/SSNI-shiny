@@ -105,7 +105,9 @@ fluidPage(
     
     selectInput("type1_p", withMathJax("Type I error,  $\\alpha$ (one-sided):"), c("0.01", "0.025", "0.05", "0.1"), selected = "0.025"),
     selectInput("power_p", withMathJax("Type II error,  $1 - \\beta$:"), c("0.8", "0.9", "0.95"), selected= "0.9")
-    )),
+    ),
+    p("COPYRIGHT HOLDER: Thevaa Chandereng, Richard Chappell (2018)")
+    ),
     # Main panel for displaying outputs ----
     mainPanel(
 
