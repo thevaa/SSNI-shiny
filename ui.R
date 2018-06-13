@@ -9,7 +9,7 @@ fluidPage(
     # Sidebar panel for inputs ----
     sidebarPanel(
   # Sidebar layout with input and output definitions ----
-  selectInput("dist", "Distribution of the data", c(Normal = "Normal", Binomial = "Binomial", Poisson = "Poisson")),
+  selectInput("dist", "Distribution of the data", c(Normal = "Normal", Binomial = "Binomial", Poisson = "Poisson"), selected = "Binomial"),
   
   
   #only show panel if the condition is met
@@ -32,7 +32,7 @@ fluidPage(
     # Input: Decimal interval with step value ----
     numericInput("varT", withMathJax("Variance of Treatment: ,  $\\sigma_T^2:$"),
                  min = 0, max = 100,
-                 value = 20, step = 0.01),
+                 value = 10, step = 0.01),
     
     numericInput("muC", withMathJax("Mean of Control: ,  $\\mu_C:$"),
                  min = 0, max = 100,
@@ -71,7 +71,7 @@ fluidPage(
                    value = 0.25, step = 0.001),
 
       conditionalPanel(condition = "input.margin_b == 'add'",
-      sliderInput("marginval_b1", withMathJax("Margin,  $\\Delta$:"), min = 0.001, max = 1 , value = 0.05, step = 0.001)),
+      sliderInput("marginval_b1", withMathJax("Margin,  $\\Delta$:"), min = 0.001, max = 1 , value = 0.10, step = 0.001)),
 
       conditionalPanel(condition = "input.margin_b == 'multi'",
       sliderInput("marginval_b2", withMathJax("Margin,  $\\Delta$:"), min = 1.001, max = 2, value = 1.1, step = 0.001)),
