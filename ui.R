@@ -11,14 +11,23 @@ fluidPage(
   # Sidebar layout with input and output definitions ----
   selectInput("dist", "Distribution of the data", c(Normal = "Normal", Binomial = "Binomial", Poisson = "Poisson"), selected = "Binomial"),
   
+  # Sidebar layout with input and output definitions ----
+  selectInput("equality", "Null", c(Less = "Less", Greater = "Greater"), 
+              selected = "greater"),
   
   #only show panel if the condition is met
   conditionalPanel(
     condition = "input.dist == 'Normal'",
+    p("Null: Greater"),
     p("Additve:"),
     p(withMathJax("$$H_0 \\text{ : } \\mu_C \\text{  =  } \\mu_T  \\text{ + } \\Delta \\text{,} \\quad \\Delta > 0$$")),
     p("Multiplicative:"),
     p(withMathJax("$$H_0 \\text{ : } \\mu_C \\text{  =  } \\Delta\\mu_T\\text{,} \\quad \\Delta > 1$$")),
+    p("Null: Less"),
+    p("Additve:"),
+    p(withMathJax("$$H_0 \\text{ : } \\mu_T \\text{  =  } \\mu_C  \\text{ + } \\Delta \\text{,} \\quad \\Delta > 0$$")),
+    p("Multiplicative:"),
+    p(withMathJax("$$H_0 \\text{ : } \\mu_T \\text{  =  } \\Delta\\mu_C\\text{,} \\quad \\Delta > 1$$")),
 
     radioButtons("margin_n", "Type of margin used:",
                  c("Additive" = "add", "Multiplicative" = "multi")),
@@ -58,10 +67,16 @@ fluidPage(
     # Only show this panel if Custom is selected
     conditionalPanel(
       condition = "input.dist == 'Binomial'",
+      p("Null: Greater"),
       p("Additve:"),
       p(withMathJax("$$H_0 \\text{ : } p_C \\text{  =  } p_T  \\text{ + } \\Delta \\text{,} \\quad \\Delta > 0$$")),
       p("Multiplicative:"),
       p(withMathJax("$$H_0 \\text{ : } p_C \\text{  =  } \\Delta p_T\\text{,} \\quad \\Delta > 1$$")),
+      p("Null: Less"),
+      p("Additve:"),
+      p(withMathJax("$$H_0 \\text{ : } p_T \\text{  =  } p_C  \\text{ + } \\Delta \\text{,} \\quad \\Delta > 0$$")),
+      p("Multiplicative:"),
+      p(withMathJax("$$H_0 \\text{ : } p_T \\text{  =  } \\Delta p_C\\text{,} \\quad \\Delta > 1$$")),
 
       radioButtons("margin_b", "Type of margin used:",
                    c("Additive" = "add", "Multiplicative" = "multi")),
@@ -84,10 +99,15 @@ fluidPage(
   
   conditionalPanel(
     condition = "input.dist == 'Poisson'",
+    p("Null: Greater"),
     p("Additve:"),
     p(withMathJax("$$H_0 \\text{ : } \\lambda_C \\text{  =  } \\lambda_T  \\text{ + } \\Delta \\text{,} \\quad \\Delta > 0$$")),
     p("Multiplicative:"),
     p(withMathJax("$$H_0 \\text{ : } \\lambda_C \\text{  =  } \\Delta \\lambda_T\\text{,} \\quad \\Delta > 1$$")),
+    p("Null: Less"),
+    p(withMathJax("$$H_0 \\text{ : } \\lambda_T \\text{  =  } \\lambda_C  \\text{ + } \\Delta \\text{,} \\quad \\Delta > 0$$")),
+    p("Multiplicative:"),
+    p(withMathJax("$$H_0 \\text{ : } \\lambda_T \\text{  =  } \\Delta \\lambda_C\\text{,} \\quad \\Delta > 1$$")),
 
     radioButtons("margin_p", "Type of margin used:",
                  c("Additive" = "add", "Multiplicative" = "multi")),

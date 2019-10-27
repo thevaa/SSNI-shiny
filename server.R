@@ -176,3 +176,4 @@ function(input, output){
       layout(title = "Relative Efficiency of Sample size in Control vs Optimal Allocation", xaxis = x, yaxis = y)
   })
 }
+
