@@ -45,13 +45,13 @@ fluidPage(
     
     conditionalPanel(
       condition = "input.null == 'Greater'", 
-      numericInput("muC", withMathJax("Mean of Control: ,  $\\mu_C:$"),
+      numericInput("muC1", withMathJax("Mean of Control: ,  $\\mu_C:$"),
                    min = 0, max = 100,
                    value = 5, step = 0.01)),
     
     conditionalPanel(
       condition = "input.null == 'Less'", 
-      numericInput("muC", withMathJax("Mean of Treatmentl: ,  $\\mu_T:$"),
+      numericInput("muC2", withMathJax("Mean of Treatmentl: ,  $\\mu_T:$"),
                    min = 0, max = 100,
                    value = 5, step = 0.01)),
     
@@ -91,13 +91,13 @@ fluidPage(
       
       conditionalPanel(
         condition = "input.null == 'Greater'", 
-        numericInput("pC", withMathJax("Control Group Proportion,  $p_C:$"),
+        numericInput("pC1", withMathJax("Control Group Proportion,  $p_C:$"),
                      min = 0, max = 1,
                      value = 0.25, step = 0.001)),
       
       conditionalPanel(
         condition = "input.null == 'Less'", 
-        numericInput("pC", withMathJax("Treatment Group Proportion,  $p_T:$"),
+        numericInput("pC2", withMathJax("Treatment Group Proportion,  $p_T:$"),
                      min = 0, max = 1,
                      value = 0.25, step = 0.001)),
       
@@ -131,13 +131,13 @@ fluidPage(
     
     conditionalPanel(
       condition = "input.null == 'Greater'", 
-      numericInput("lambdaC", withMathJax("Mean of Control,  $\\lambda_C:$"),
+      numericInput("lambdaC1", withMathJax("Mean of Control,  $\\lambda_C:$"),
                  min = 0, max = 50,
                  value = 3, step = 0.05)),
     
     conditionalPanel(
       condition = "input.null == 'Less'", 
-      numericInput("lambdaC", withMathJax("Mean of Treatment,  $\\lambda_T:$"),
+      numericInput("lambdaC2", withMathJax("Mean of Treatment,  $\\lambda_T:$"),
                    min = 0, max = 50,
                    value = 3, step = 0.05)),
     
