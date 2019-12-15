@@ -277,7 +277,7 @@ function(input, output){
       "$(this.api().table().header()).css({'background-color': '#000', 'color': '#fff'});",
       "}"),
     dom = 'Bfrtip',
-                 buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+                 buttons = c('copy', 'csv', 'excel', 'pdf', 'print')), rownames= FALSE)
   f <- list(family = "Courier New, monospace", size = 14, color = "#7f7f7f")
   x <- list(title = "Sample Size in Control", titlefont = f)
   y <- list(title = "Relative Efficiency", titlefont = f)
