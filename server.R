@@ -19,7 +19,7 @@ multi.margin <- function(delta, varC, varT = NULL, muC,  alpha = 0.05, beta = 0.
   nT <- (qnorm(1 - alpha) + qnorm(1 - beta))^2 * (delta^2 * varT + varC / k) / (muC * (1 - delta))^2
   nC <- k * nT
   eff <- 2 * (varC + delta^2 * varT) / (sqrt(varC) + delta * sqrt(varT))^2
-  return(list(control = nC, treatment = nT, randomization = k, efficiency = eff))
+  return(list(control = nC, treatment = nT, randomization = round(k, 3), efficiency = round(eff, 3)))
 }
 
 #sample size for additive margin in non-inferiority trial 
@@ -40,7 +40,7 @@ add.margin <- function(delta, varC, varT = NULL, alpha = 0.05, beta = 0.20){
   else{
     eff <- 2 * (varC + varT) / (sqrt(varC) + sqrt(varT))^2
   }
-  return(list(control = nC, treatment = nT, randomization = k, efficiency = eff))
+  return(list(control = nC, treatment = nT, randomization = round(k, 3), efficiency = round(eff, 3)))
 }
 
 
