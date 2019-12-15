@@ -1,6 +1,7 @@
 #calling two different libraries
 library(shiny)
 library(plotly)
+library(DT)
 #sequence for different sample size sampling
 h  <- seq(0.05, 0.95, 0.005)
 
@@ -267,9 +268,11 @@ function(input, output){
   })
   
   # Show the values in an HTML table ----
-  output$values <- renderTable({
-    sliderValues()
-  })
+  output$values <- renderDataTable({
+    sliderValues() 
+  }, extensions = 'Buttons', 
+  options = list(dom = 'Bfrtip',
+                 buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
   f <- list(family = "Courier New, monospace", size = 14, color = "#7f7f7f")
   x <- list(title = "Sample Size in Control", titlefont = f)
   y <- list(title = "Relative Efficiency", titlefont = f)

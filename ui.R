@@ -1,5 +1,6 @@
 library(shiny)
 library(plotly)
+library(DT)
 
 fluidPage(
   # App title 
@@ -160,7 +161,7 @@ fluidPage(
 
       # Output: Table summarizing the values entered ----
       h3("Sample Size and Eficiency"),
-      tableOutput("values"),
+      dataTableOutput("values"),
 
       h3("Plot of Efficiency"),
       plotlyOutput("plot")
