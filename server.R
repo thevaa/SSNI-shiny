@@ -271,7 +271,12 @@ function(input, output){
   output$values <- renderDataTable({
     sliderValues() 
   }, extensions = 'Buttons', 
-  options = list(dom = 'Bfrtip',
+  options = list(
+    initComplete = JS(
+      "function(settings, json) {",
+      "$(this.api().table().header()).css({'background-color': '#000', 'color': '#fff'});",
+      "}"),
+    dom = 'Bfrtip',
                  buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
   f <- list(family = "Courier New, monospace", size = 14, color = "#7f7f7f")
   x <- list(title = "Sample Size in Control", titlefont = f)
